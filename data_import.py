@@ -1,8 +1,6 @@
 import requests
 
 
-
-
 url = "https://covid-193.p.rapidapi.com/statistics"
 
 headers = {
@@ -12,6 +10,3 @@ headers = {
 
 # import for the world
 world_response = requests.request("GET", url, headers=headers)
-
-
-

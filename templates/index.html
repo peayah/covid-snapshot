@@ -19,7 +19,7 @@
             <div class="countries">
                 <h2>Countries with new<br/>cases over 100</h2>
                 <p>
-                 {% for country in cities %}
+                 {% for country in country_data %}
                      {% if country[1] > 99 %}
                      {{ country[0] }} ({{ country[1] }})<br/>
                      {% endif %}

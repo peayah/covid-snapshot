@@ -1,8 +1,5 @@
 from flask import Flask, render_template, send_file
-
-import charts
 from charts import *
-import data_import
 
 app = Flask(__name__)
 
@@ -10,14 +7,10 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """Entry point; the view for the main page"""
-    data = countries()
-    # for key, val in data:
-    #     print(key, val)
-    #
-    cities = data
+    country_data = countries()
 
     # return render_template('index.html')
-    return render_template('index.html', cities = cities)
+    return render_template('index.html', country_data = country_data)
 
 
 @app.route('/main.png')

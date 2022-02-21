@@ -5,15 +5,14 @@ from io import BytesIO
 
 def countries():
 
-    # initializing list
+    # initialize list
     list_of_countries = []
 
     for item in data_import.world_response.json().get('response'):
-        # list_of_countries.append(item.get('country'))
         if item.get('deaths')['new'] is not None:
             if item.get('country') != item.get('continent'):
                 new_number = int(item.get('deaths')['new'].replace("+",""))
-                list_of_countries.append((item.get('country'), new_number)) #item.get('deaths')['new']))
+                list_of_countries.append((item.get('country'), new_number))
 
     def sort_key(list_of_countries):
         return list_of_countries[1]
@@ -22,16 +21,10 @@ def countries():
 
     return list_of_countries
 
-    # print(list_of_countries)
-
-# data = countries()
-# for key, val in data:
-#     print(key, val)
-# print(data)
 
 def death_cases_graph():
 
-    # initializing lists
+    # initialize lists
     deaths = []
     cases = []
     tests = []
@@ -104,4 +97,3 @@ def death_cases_graph():
     plt.savefig(fig)
     fig.seek(0)
     return fig
-
