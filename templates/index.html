@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="../static/style.css" rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid Snap Shot</title>
+</head>
+<body>
+<div class = "container">
+
+    <div class="header">
+        <h1>Today's Covid Snap Shot</h1>
+    </div>
+
+    <div class = "main">
+        <img src="{{ url_for('main_plot') }}" alt="Scatter plots from today">
+        <div class="information">
+            <div class="countries">
+                <h2>Countries with new<br/>cases over 100</h2>
+                <p>
+                 {% for country in cities %}
+                     {% if country[1] > 99 %}
+                     {{ country[0] }} ({{ country[1] }})<br/>
+                     {% endif %}
+                 {% endfor %}
+                </p>
+            </div>
+            <div class="legend">
+                <h3>Legend</h3>
+                <p>Deaths = % Deaths of Population<br/>
+                Cases = % Cases of Population<br/>
+                Tests = Average Tests per Citizen
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+
+    </div>
+
+</div>
+
+</body>
+</html>
