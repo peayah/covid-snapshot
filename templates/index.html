@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<link href="../static/style.css" rel="stylesheet" type="text/css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Covid Snap Shot</title>
+    <meta charset="UTF-8">
+    <link href="../static/style.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid Snapshot</title>
 </head>
 <body>
 <div class = "container">
-
     <div class="header">
-        <h1>Today's Covid Snap Shot</h1>
+        <h1>Today's Covid Snapshot</h1>
     </div>
 
     <div class = "main">
-        <img src="{{ url_for('main_plot') }}" alt="Scatter plots from today">
-        <div class="information">
+        <img class="left" src="{{ url_for('main_plot') }}" alt="Scatter plots from today">
+
+        <div class="information right">
             <div class="countries">
-                <h2>Countries with new<br/>cases over 100</h2>
+                <h2>Countries with new<br/>deaths over 100</h2>
                 <p>
                  {% for country in country_data %}
                      {% if country[1] > 99 %}
-                     {{ country[0] }} ({{ country[1] }})<br/>
+                     {{ country[0] }}  {{ country[1] }}<br/>
                      {% endif %}
                  {% endfor %}
                 </p>
@@ -36,11 +36,78 @@
         </div>
     </div>
 
-    <div class="footer">
+    <div class = "clear">
+        <div class = "form">
+            <form action="/" method="post">
+            <h4><label for="country">Select a country and get a COVID19 snapshot:</label></h4>
+            <select name="country">
+                <option value="">---</option>
 
+                {% for c in country_data %}
+                <option value="{{ c[0] }}">{{ c[0]}}</option>
+                {% endfor %}
+
+            </select>
+            <input type="submit" value="Select Country">
+            </form>
+        </div>
     </div>
 
-</div>
+    {% if data %}
+    <div class = "clear">
+        <h3>{{ data[0] }} Snapshot ( Population: {{"{:,.0f}".format( data[1]) }} )</h3>
+    </div>
+    <div class = "country-data">
+
+        <span id="result" >
+            <div class ="left country-data-column">
+                <h3>Cases</h3>
+                {% if data[3] == 0 %}
+                    <p>There are no new cases reported today.</p>
+                {% else %}
+                    <p>That includes the {{"{:,.0f}".format(  data[3]) }} new cases reported today.</p>
+                {% endif %}
+                <p>The total number of cases, as of today, is {{"{:,.0f}".format( data[2]) }}.</p>
+
+                <p>The difference from the same time last year is {{"{:,.0f}".format( data[5]) }}. </p>
+                <p>This is up from {{"{:,.0f}".format( data[4]) }}
+                   and is approximately {{"{:,.0f}".format( data[13]) }} times more the same time last year.</p>
+                <p>{{ data[0] }} has a {{"{:,.0f}".format( data[6]) }}% case to population rate.</p>
+            </div>
+            <div class ="right country-data-column">
+                <h3>Deaths</h3>
+                {% if data[8] == 0 %}
+                    <p>No new deaths reported today.</p>
+                {% else %}
+                    <p>Number of new deaths reported is {{ "{:,.0f}".format( data[8]) }}.</p>
+                {% endif %}
+
+                <p>Total number of deaths, as of today, is {{"{:,.0f}".format( data[7]) }}.</p>
+
+                <p>Deaths vs population: {{"{:,.4f}".format( data[9]) }}%.</p>
+                <p>Deaths vs cases: {{"{:,.4f}".format( data[10]) }}%.</p>
+                <p>This means that
+                {% if data[10] < 0.1 %}
+                    less than 1 in 1000 who contracts COVID-19 will die
+                    {% endif %}
+                {% if data[10] < 1 %}
+                less than 1 in 100 who contracts COVID-19 will die.
+                {% else %}
+                    on average {{"{:,.2f}".format( data[10]) }} out 100 who contract COVID-19 in {{ data[0] }} will die.
+                {% endif %}
+                </p>
+                <h3>Testing</h3>
+                <p>Total number of tests done is {{"{:,.0f}".format( data[11]) }}. </p>
+                <p>This is an average of {{"{:,.2f}".format( data[12]) }} tests per citizen.</p>
+            </div>
+        </span>
+    </div>
+    {% endif %}
+
+    <div class ="footer">
+
+    </div>
+</div> <!-- end container -->
 
 </body>
 </html>

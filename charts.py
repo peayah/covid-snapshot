@@ -1,6 +1,132 @@
 import matplotlib.pyplot as plt
 import data_import
 from io import BytesIO
+from data_import import return_data_for_one_country
+
+
+def search_one_country(coun):
+    tas=return_data_for_one_country(coun)
+    one_country_details = []
+
+    ty_data = tas[0]
+    ly_data = tas[1]
+
+    request_data = ty_data.json().get('response')
+
+    # get country name (0)
+    this_country = request_data[0]['country']
+    one_country_details.append(this_country)
+
+    # get population total (1)
+    this_population = request_data[0]['population']
+    one_country_details.append(this_population)
+
+    # CASES
+    # get  total cases (2)
+    this_cases = request_data[0]['cases']['total']
+    one_country_details.append(this_cases)
+
+    # get cases today (3)
+    if request_data[0]['cases']['new'] is not None:
+        todays_cases = int(request_data[0]['cases']['new'].replace("+",""))
+    else:
+        todays_cases = 0
+    one_country_details.append(todays_cases)
+
+    # get last year data
+    last_year_request_data = ly_data.json().get('response')
+
+    # get last year's total cases (4)
+    last_year_cases = last_year_request_data[0]['cases']['total']
+    one_country_details.append(last_year_cases)
+
+    # get the this year and last year case difference (5)
+    difference = int(this_cases) - int(last_year_cases)
+    one_country_details.append(difference)
+
+    # get cases vs population % (6)
+    casespopulation = int(this_cases) / int(this_population) * 100
+    one_country_details.append(casespopulation)
+
+
+    # DEATHS
+    # get deaths total (7)
+    this_deaths = request_data[0]['deaths']['total']
+    one_country_details.append(this_deaths)
+
+    # deaths today (8)
+    if request_data[0]['deaths']['new'] is not None:
+        today_deaths = int(request_data[0]['deaths']['new'].replace("+",""))
+    else:
+        today_deaths = 0
+    one_country_details.append(today_deaths)
+
+    # get deaths vs population % (9)
+    deathpopulation = int(this_deaths) / int(this_population) * 100
+    one_country_details.append(deathpopulation)
+
+    # get deaths vs cases % (10)
+    deathcases = int(this_deaths) / this_cases * 100
+    one_country_details.append(deathcases)
+
+    # get tests total (11)
+    this_tests = request_data[0]['tests']['total']
+    one_country_details.append(this_tests)
+
+    # average tests per citizens (12)
+    test_per_citizen = int(this_tests) / int(this_population)
+    one_country_details.append(test_per_citizen)
+
+    # get rise in cases (13)
+    rise_in_cases = this_cases / last_year_cases
+    one_country_details.append(rise_in_cases)
+
+    return one_country_details
+
+
+'''
+request_data = data_import.one_country_response.json().get('response')
+
+    # get country name (0)
+    this_country = request_data[0]['country']
+    one_country_details.append(this_country)
+
+    # get population total (1)
+    this_population = request_data[0]['population']
+    one_country_details.append(this_population)
+
+    # get cases total this year (2)
+    this_cases = request_data[0]['cases']['total']
+    one_country_details.append(this_cases)
+
+    # get deaths total this year (3)
+    this_deaths = request_data[0]['deaths']['total']
+    one_country_details.append(this_deaths)
+
+    # get tests total this year (4)
+    this_tests = request_data[0]['tests']['total']
+    one_country_details.append(this_tests)
+
+    # get cases total this year
+    last_year_request_data = data_import.last_year_one_country_response.json().get('response')
+
+    #  get last years cases number (5)
+    last_year_cases = last_year_request_data[0]['cases']['total']
+    one_country_details.append(last_year_cases)
+
+    # get the difference (6)
+    difference = int(this_cases) - int(last_year_cases)
+    one_country_details.append(difference)
+
+    # average tests per citizens (7)
+    test_per_citizen = int(this_tests) / int(this_population)
+    one_country_details.append(test_per_citizen)
+
+    # print(one_country_details)
+    return one_country_details
+
+
+'''
 
 
 def countries():
@@ -19,6 +145,7 @@ def countries():
 
     list_of_countries.sort(key=sort_key, reverse=True)
 
+    # print(dict(list_of_countries))
     return list_of_countries
 
 
@@ -38,7 +165,7 @@ def death_cases_graph():
         else:
             deaths.append(0)
 
-     # if tests is 0 or more
+        # if tests is 0 or more
         if item.get('tests')['total'] is not None and item.get('population') is not None:
             tests.append(int(item.get('tests')['total'])/int(item.get('population')))
         else:
@@ -54,9 +181,9 @@ def death_cases_graph():
     gridsize = (10, 2)
 
     plt.figure(figsize=(8, 6))
-    now_plt = plt.subplot2grid(gridsize, (0,0), colspan=2, rowspan=6)
-    one_plt = plt.subplot2grid(gridsize,(7,0), rowspan=3)
-    two_plt = plt.subplot2grid(gridsize,(7,1), rowspan=3)
+    now_plt = plt.subplot2grid(gridsize, (0, 0), colspan=2, rowspan=6)
+    one_plt = plt.subplot2grid(gridsize, (7, 0), rowspan=3)
+    two_plt = plt.subplot2grid(gridsize, (7, 1), rowspan=3)
 
     # ------------------------
     # main title for plots

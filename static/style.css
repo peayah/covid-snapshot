@@ -31,25 +31,60 @@ h1 {
 
 img {
     width:65%;
-    float: left;
 }
 
 .information {
     width: 35%;
+}
+
+.country-data {
+    width: 100%;
+}
+
+.country-data-column {
+    width: 50%;
+    padding-right: 12em;
+}
+
+.form {
+}
+
+.right {
     float: right;
+}
+
+.left {
+    float: left
+}
+
+.clear {
+    clear: both;
+
 }
 
 .footer {
     width: 100%;
     height: 1em;
     border-top: 0.25em solid darkslategrey;
+    margin-top: 5em;
     clear: both;
+}
+
+
+@media only screen and (max-width: 1100px) {
+    .country-data-column {
+        padding-right: 7em;
+    }
 }
 
 @media only screen and (max-width: 844px) {
 
     h1 {
         font-size: 3rem;
+    }
+
+    .country-data-column {
+    padding-right: 5em;
     }
 }
 
@@ -59,7 +94,7 @@ img {
     }
 
     /* For mobile phones: */
-    .information {
+    .information, .form, .country-data {
         width: 100%;
     }
 
@@ -85,9 +120,16 @@ img {
         float: left;
     }
 
+
+
     .legend {
         width: 40%;
         float: right;
+    }
+
+
+    .country-data-column {
+    padding-right: 3em;
     }
 }
 
@@ -110,6 +152,10 @@ img {
     }
 
 
+    .country-data-column {
+    padding-right: 1em;
+    }
+
     h2, h3 {
         font-size: 1.25rem;
     }
@@ -126,5 +172,10 @@ img {
     .legend {
         width: 100%;
     }
+
+.country-data-column {
+    width: 100%
+}
+
 
 }
