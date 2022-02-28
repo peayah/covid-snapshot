@@ -149,6 +149,28 @@ def countries():
     return list_of_countries
 
 
+
+def alphalist():
+
+    # initialize list
+    alpha_countries = []
+
+    for item in data_import.world_response.json().get('response'):
+        if item.get('country') != item.get('continent'):
+            # new_number = int(item.get('deaths')['new'].replace("+",""))
+            alpha_countries.append((item.get('country'), 42))
+
+    def sort_key(alpha_countries):
+        return alpha_countries[0]
+
+    alpha_countries.sort(key=sort_key, reverse=False)
+
+    print(dict(alpha_countries))
+    return alpha_countries
+
+
+
+
 def death_cases_graph():
 
     # initialize lists

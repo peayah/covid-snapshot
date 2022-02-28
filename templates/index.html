@@ -43,8 +43,8 @@
             <select name="country">
                 <option value="">---</option>
 
-                {% for c in country_data %}
-                <option value="{{ c[0] }}">{{ c[0]}}</option>
+                {% for a in alpha_list %}
+                <option value="{{ a[0] }}">{{ a[0]}}</option>
                 {% endfor %}
 
             </select>

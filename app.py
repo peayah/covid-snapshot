@@ -24,10 +24,11 @@ def index():
         country = request.form.get('country')
         # return render_template('index.html', data=get_monthly_data(country))
         data = get_monthly_data(country)
-
+    alpha_list =alphalist()
     country_data = countries()
 
     return render_template('index.html',
+                           alpha_list = alpha_list,
                            country_data=country_data,
                            data=data)
 
