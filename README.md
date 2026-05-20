@@ -1,1 +1,1 @@
-# Flask App that calculates covid cases for selected country
+# Flask dashboard that calculates covid cases for selected country
